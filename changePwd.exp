@@ -1,0 +1,16 @@
+#!/usr/bin/expect
+set timeout 20
+set user user1
+set newPasswd bac234qwe.1
+set curPasswd newPasswd.1
+set server [lindex $argv 0]
+spawn -noecho ssh -t -q -o StrictHostKeychecking=no "$user\@$server" "passwd"
+expect "assword:"
+send "$curPasswd\r"
+expect "*UNIX password:"
+send "$curPasswd\r"
+expect "New password: "
+send "$newPasswd\r"
+expect "Retype new password:"
+send "$newPasswd\r"
+expect eof
